@@ -21,35 +21,49 @@ function drawCard() {
 
     if (playerDeck[1] === `p1`) {
         newMatch.drawCard(player1);
-        newCardSpot = player1.cardInGame.length;
-        newCardAttr = player1.cardInGame[(newCardSpot - 1)];
+        displayCards(player1);
     }
     else if (playerDeck[1] === `p2`) {
         newMatch.drawCard(player2);
-        newCardSpot = player2.cardInGame.length;
-        newCardAttr = player2.cardInGame[(newCardSpot - 1)];
+        displayCards(player2);
     }
-    newcardInGame = document.createElement(`div`);
-    newcardInGame.classList.add(`cards-in-hand`);
-    document.querySelector(`.in-hand-area.${playerDeck[1]}`).appendChild(newcardInGame);
-
-    newCardAtk = document.createElement(`div`);
-    newCardAtk.innerText = newCardAttr.turnAtk;
-    newCardAtk.classList.add(`card-atk`);
-    newcardInGame.appendChild(newCardAtk);
-
-    newCardDef = document.createElement(`div`);
-    newCardDef.innerText = newCardAttr.turnDef;
-    newCardDef.classList.add(`card-def`);
-    newcardInGame.appendChild(newCardDef);
-
-    newCardTuC = document.createElement(`div`);
-    newCardTuC.innerText = newCardAttr.turnCost;
-    newCardTuC.classList.add(`card-tuc`);
-    newcardInGame.appendChild(newCardTuC);
 
     document.querySelectorAll(`.cards-in-hand`).forEach((card) => {card.addEventListener(`click`, cardsInHand)});
     document.querySelectorAll(`.cards-in-hand`).forEach((card) => {card.addEventListener(`dblclick`, playCard)});
+}
+
+function displayCards(playerDisplay) {
+    let cardsAlreadyDisplayed = document.querySelector(`.in-hand-area.${playerDisplay.shortName}`).childNodes;
+    cardsAlreadyDisplayed.forEach((cardDisplayed) => {
+        while (cardDisplayed.parentNode.firstElementChild) {
+            cardDisplayed.parentNode.removeChild(cardDisplayed.parentNode.firstElementChild);
+        }
+    });
+    let newcardInGame;
+    let newCardAtk;
+    let newCardDef;
+    let newCardTuC;
+
+    playerDisplay.cardInGame.forEach((card) => {
+        newcardInGame = document.createElement(`div`);
+        newcardInGame.classList.add(`cards-in-hand`);
+        document.querySelector(`.in-hand-area.${playerDisplay.shortName}`).appendChild(newcardInGame);
+    
+        newCardAtk = document.createElement(`div`);
+        newCardAtk.innerText = card.turnAtk;
+        newCardAtk.classList.add(`card-atk`);
+        newcardInGame.appendChild(newCardAtk);
+    
+        newCardDef = document.createElement(`div`);
+        newCardDef.innerText = card.turnDef;
+        newCardDef.classList.add(`card-def`);
+        newcardInGame.appendChild(newCardDef);
+    
+        newCardTuC = document.createElement(`div`);
+        newCardTuC.innerText = card.turnCost;
+        newCardTuC.classList.add(`card-tuc`);
+        newcardInGame.appendChild(newCardTuC);
+    });
 }
 
 function cardsInHand() {

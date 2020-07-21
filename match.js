@@ -25,11 +25,7 @@ class gameMatch {
 
     playCard(chosenPlayer, chosenCard) {
         console.log(`All ${chosenPlayer.name} cards`, chosenPlayer);
-        // console.log(`A single ${chosenPlayer.name} card`, chosenPlayer.cardInGame[chosenCard]);
         this.cardStatus(chosenPlayer, chosenCard);
-        // chosenPlayer.cardInGame[chosenCard].status = `in-play`;
-        // chosenPlayer.cardInGame.push(chosenPlayer.cardInHand[chosenCard]);
-        // chosenPlayer.cardInHand.splice(chosenCard, 1);
         console.log(`All ${chosenPlayer.name} cards updated`, chosenPlayer);
     }
 
@@ -49,9 +45,6 @@ class gameMatch {
             if (remainingCards.length === 0) {
                 this.playerMatchHealth(attackingPlayer, atkRemainingDef);
             }
-            // attackingPlayer.cardInGame[attackingCard].status = `in-discard`;
-            // attackingPlayer.cardInDiscard.push(attackingPlayer.cardInGame[attackingCard]);
-            // attackingPlayer.cardInGame.splice(attackingCard, 1);
         }
         if (defRemainingDef <= 0) {
             this.cardStatus(defendingPlayer, defendingCard);
@@ -59,9 +52,6 @@ class gameMatch {
             if (remainingCards.length === 0) {
                 this.playerMatchHealth(defendingPlayer, defRemainingDef);
             }
-            // defendingPlayer.cardInGame[defendingCard].status = `in-discard`;
-            // defendingPlayer.cardInDiscard.push(defendingPlayer.cardInGame[defendingCard]);
-            // defendingPlayer.cardInGame.splice(defendingCard, 1);
         }
         console.log(`Player 1 cards`, player1)
         console.log(`Player 2 cards`, player2)
@@ -99,6 +89,7 @@ class cardGenerator {
 
 const player1 = {
     name: `Player 1`,
+    shortName: `p1`,
     // cardInHand: [],
     cardInGame: [],
     // cardInDiscard: [],
@@ -106,6 +97,7 @@ const player1 = {
 }
 const player2 = {
     name: `Player 2`,
+    shortName: `p2`,
     // cardInHand: [],
     cardInGame: [],
     // cardInDiscard: [],
