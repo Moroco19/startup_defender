@@ -65,10 +65,23 @@ class gameMatch {
         }
         console.log(`Player 1 cards`, player1)
         console.log(`Player 2 cards`, player2)
+        this.matchEnd();
     }
 
     playerMatchHealth(thePlayer, healthReduction) {
         thePlayer.matchHp += healthReduction;
+    }
+
+    matchEnd() {
+        if (player1.matchHp <= 0 && player2.matchHp <= 0) {
+            console.log(`Its a tie!`)
+        }
+        else if (player1.matchHp <= 0 ) {
+            console.log(`Player 2 wins!`)
+        }
+        else if (player2.matchHp <= 0) {
+            console.log(`Player 1 wins!`)
+        }
     }
 }
 
@@ -89,14 +102,14 @@ const player1 = {
     // cardInHand: [],
     cardInGame: [],
     // cardInDiscard: [],
-    matchHp: 30,
+    matchHp: 3,
 }
 const player2 = {
     name: `Player 2`,
     // cardInHand: [],
     cardInGame: [],
     // cardInDiscard: [],
-    matchHp: 30,
+    matchHp: 3,
 }
 
 let match1 = new gameMatch(player1, player2);
@@ -110,19 +123,19 @@ match1.drawCard(player2);
 match1.drawCard(player2);
 
 console.log(`---- BREAK ----`)
-match1.playCard(player1, 1);
+// match1.playCard(player1, 1);
 match1.playCard(player1, 2);
 console.log(`---- BREAK ----`)
 match1.playCard(player2, 1);
 
-// Testing to ensure if no remaining cards, defending player2 HP is reduced
-// match1.attack(player1, 2, player2, 1);
-// console.log(`---- BREAK ----`)
-// console.log(player1.matchHp);
-// console.log(player2.matchHp);
-
-// Testing to ensure if remaining cards, defending player1 HP is not reduced
-match1.attack(player2, 1, player1, 2);
+//Testing to ensure if no remaining cards, defending player2 HP is reduced
+match1.attack(player1, 2, player2, 1);
 console.log(`---- BREAK ----`)
 console.log(player1.matchHp);
 console.log(player2.matchHp);
+
+// // Testing to ensure if remaining cards, defending player1 HP is not reduced
+// match1.attack(player2, 1, player1, 2);
+// console.log(`---- BREAK ----`)
+// console.log(player1.matchHp);
+// console.log(player2.matchHp);
