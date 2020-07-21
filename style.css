@@ -1,4 +1,4 @@
-.screen-container, .board, .left-aside, .right-aside, .player-area, .in-hand-area, .in-play-area {
+.screen-container, .board, .left-aside, .right-aside, .player-area, .in-hand-area, .in-play-area, .cards-in-hand {
     display: flex;
 }
 
@@ -56,4 +56,18 @@
     border: black solid 1px;
     height: 5vh;
     width: 5vh;
+}
+
+.cards-in-hand {
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.card-atk {
+    align-self: flex-start;
+}
+.card-def {
+    order: 1;
+}
+.card-tuc {
+    align-self: flex-end;
 }

@@ -112,27 +112,27 @@ const player2 = {
     matchHp: 3,
 }
 
-let match1 = new gameMatch(player1, player2);
-match1.drawCard(player1);
-match1.drawCard(player1);
-match1.drawCard(player1);
-match1.drawCard(player1);
-match1.drawCard(player2);
-match1.drawCard(player2);
-match1.drawCard(player2);
-match1.drawCard(player2);
+// let match1 = new gameMatch(player1, player2);
+// match1.drawCard(player1);
+// match1.drawCard(player1);
+// match1.drawCard(player1);
+// match1.drawCard(player1);
+// match1.drawCard(player2);
+// match1.drawCard(player2);
+// match1.drawCard(player2);
+// match1.drawCard(player2);
 
-console.log(`---- BREAK ----`)
-// match1.playCard(player1, 1);
-match1.playCard(player1, 2);
-console.log(`---- BREAK ----`)
-match1.playCard(player2, 1);
+// console.log(`---- BREAK ----`)
+// // match1.playCard(player1, 1);
+// match1.playCard(player1, 2);
+// console.log(`---- BREAK ----`)
+// match1.playCard(player2, 1);
 
-//Testing to ensure if no remaining cards, defending player2 HP is reduced
-match1.attack(player1, 2, player2, 1);
-console.log(`---- BREAK ----`)
-console.log(player1.matchHp);
-console.log(player2.matchHp);
+// //Testing to ensure if no remaining cards, defending player2 HP is reduced
+// match1.attack(player1, 2, player2, 1);
+// console.log(`---- BREAK ----`)
+// console.log(player1.matchHp);
+// console.log(player2.matchHp);
 
 // // Testing to ensure if remaining cards, defending player1 HP is not reduced
 // match1.attack(player2, 1, player1, 2);
