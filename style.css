@@ -1,0 +1,59 @@
+.screen-container, .board, .left-aside, .right-aside, .player-area, .in-hand-area, .in-play-area {
+    display: flex;
+}
+
+/* CSS for overall page content organization */
+.screen-container {
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 5%;
+    margin-left: 20%;
+    margin-right: 20%;
+    background-color: grey;
+}
+/* END OF CSS for overall page content organization*/
+
+.board {
+    height: 40vh;
+    width: 60vw;
+    background-color: brown;
+}
+
+.player2 {
+    margin-bottom: 1vh;
+}
+.player1 {
+    margin-top: 1vh;
+}
+
+.shuffled-deck, .cards-in-hand, .in-play, .discard-pile {
+    height: 8vh;
+    width: 4vw;
+    border: black solid 1px;
+}
+
+.left-aside, .right-aside {
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 10vw;
+    background-color: chartreuse;
+}
+.player-area {
+    flex-direction: column;
+    width: 60vw;
+    background-color: cyan;
+}
+.in-hand-area, .in-play-area {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border: black solid 1px;
+    height: 40vh;
+}
+.player-hp, .turn-currency {
+    border-radius: 50%;
+    border: black solid 1px;
+    height: 5vh;
+    width: 5vh;
+}
