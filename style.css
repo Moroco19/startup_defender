@@ -1,4 +1,4 @@
-.screen-container, .board, .left-aside, .right-aside, .player-area, .in-hand-area, .in-play-area, .cards-in-hand {
+.screen-container, .board, .left-aside, .right-aside, .player-area, .in-hand-area, .in-play-area, .cards-in-hand, .in-play {
     display: flex;
 }
 
@@ -31,6 +31,11 @@
     width: 4vw;
     border: black solid 1px;
 }
+.end-turn {
+    height: 4vh;
+    width: 4vw;
+    border: black solid 1px;
+}
 
 .left-aside, .right-aside {
     flex-direction: column;
@@ -58,7 +63,7 @@
     width: 5vh;
 }
 
-.cards-in-hand {
+.cards-in-hand, .in-play {
     justify-content: space-between;
     flex-wrap: wrap;
 }

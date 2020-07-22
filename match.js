@@ -84,6 +84,7 @@ class cardGenerator {
         this.turnAtk = this.attack;
         this.turnDef = this.defense;
         this.cardID = Math.random().toString(36);
+        this.turns = 0;
     }
 }
 
@@ -94,6 +95,7 @@ const player1 = {
     cardInGame: [],
     // cardInDiscard: [],
     matchHp: 3,
+    playerTurn: true,
 }
 const player2 = {
     name: `Player 2`,
@@ -102,6 +104,7 @@ const player2 = {
     cardInGame: [],
     // cardInDiscard: [],
     matchHp: 3,
+    playerTurn: false,
 }
 
 // let match1 = new gameMatch(player1, player2);
