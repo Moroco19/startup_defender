@@ -22,84 +22,53 @@ function drawCard() {
 
     if (playerDeck[1] === `p1` && player1.playerTurn === true) {
         newMatch.drawCard(player1);
-        // displayCards(player1, `in-hand-area`, `cards-in-hand`);
         player1.playerTurn = false;
-        // player2.playerTurn = true;
     }
     else if (playerDeck[1] === `p2` && player2.playerTurn === true) {
         newMatch.drawCard(player2);
-        // displayCards(player2, `in-hand-area`, `cards-in-hand`);
         player2.playerTurn = false;
-        // player1.playerTurn = true;
     }
 
-    // document.querySelectorAll(`.cards-in-hand`).forEach((card) => {card.addEventListener(`click`, cardsInHand)});
     document.querySelectorAll(`.in-hand`).forEach((card) => {card.addEventListener(`dblclick`, playCard)});
 }
-
-// function displayCards(cardNew) {
-//     // let cardsAlreadyDisplayed = document.querySelector(`.${cardArea}.${playerDisplay.shortName}`).childNodes;
-//     // cardsAlreadyDisplayed.forEach((cardDisplayed) => {
-//     //     while (cardDisplayed.parentNode.firstElementChild) {
-//     //         cardDisplayed.parentNode.removeChild(cardDisplayed.parentNode.firstElementChild);
-//     //     }
-//     // });
-//     let newcardInGame;
-//     let newCardAtk;
-//     let newCardDef;
-//     let newCardTuC;
-//     // let filteredCardsInGame = playerDisplay.cardInGame.filter((cardIn) => {cardIn.status === cardClass});
-
-//     // instead of removing the dom elements, store them in an array
-
-//     // playerDisplay.cardInGame.forEach((card) => {
-//         // if (card.status === cardClass) {
-//         newcardInGame = document.createElement(`div`);
-//         newcardInGame.classList.add(`${cardNew.status}`);
-//         newcardInGame.setAttribute(`id`, cardNew.cardID);
-//         document.querySelector(`.in-hand-area.${currentPlayer.shortName}`).appendChild(newcardInGame);
-    
-//         newCardAtk = document.createElement(`div`);
-//         newCardAtk.innerText = cardNew.turnAtk;
-//         newCardAtk.classList.add(`card-atk`);
-//         newcardInGame.appendChild(newCardAtk);
-    
-//         newCardDef = document.createElement(`div`);
-//         newCardDef.innerText = cardNew.turnDef;
-//         newCardDef.classList.add(`card-def`);
-//         newcardInGame.appendChild(newCardDef);
-    
-//         newCardTuC = document.createElement(`div`);
-//         newCardTuC.innerText = cardNew.turnCost;
-//         newCardTuC.classList.add(`card-tuc`);
-//         newcardInGame.appendChild(newCardTuC);
-//     // } 
-//     // });
-     
-// }
-
-// function cardsInHand() {
-//     console.log(`Card in hand`)
-//     console.log(event.target);
-// }
 
 function playCard() {
     console.log(`Play card`);
     console.log(event.target.id);
-    // let cardToPlay = currentPlayer.cardInGame.find((card) => {
-    //     return card.cardID === event.target.id;
-    // });
     newMatch.playSelectedCard(currentPlayer, event.target.id);
-    // cardToPlay.status = `in-play`;
-    // let inHandGone = document.getElementById(`${event.target.id}`)
-    // inHandGone.remove();
-    // displayCards(currentPlayer, `in-play-area`, `in-play`)
-    // document.querySelectorAll(`.in-play`).forEach((card) => {card.addEventListener(`dblclick`, attackCard)});
+    document.querySelectorAll(`.in-play`).forEach((card) => {card.addEventListener(`click`, attackCard)});
 }
 
 function attackCard() {
         console.log(`Card to attack with`)
         console.log(event.target);
+        console.log(event.target.parentNode.classList[1]);
+        let playerChosenCard;
+        let fighter;
+        let defender;
+        if (currentPlayer === player1) {
+            fighter = player1;
+            defender = player2;
+        }
+        else {
+            fighter = player2;
+            defender = player1;
+        }
+        switch(event.target.parentNode.classList[1]) {
+            case `p1`: playerChosenCard = player1 ; break;
+            case `p2`: playerChosenCard = player2 ; break;
+        }
+        let cardFight = playerChosenCard.cardInGame.find(card => card.cardID === event.target.id) 
+        console.log(cardFight)
+        fightStorer.selectedCards.push(cardFight)
+        if (fightStorer.selectedCards.length === 2) {
+            // console.log(fighter);
+            // console.log(fightStorer.selectedCards[0]);
+            // console.log(defender);
+            // console.log(fightStorer.selectedCards[1]);
+            newMatch.attack(fighter, fightStorer.selectedCards[0], defender, fightStorer.selectedCards[1]);
+        }
+        // fightStorer.selectedCards = [];
         // attackObj.push....
         // if (attackObj.length === 2) {
         //     attackObj[1] - attackObj[0];

@@ -13,7 +13,6 @@ class gameMatch {
         let newCard = new cardGenerator(newAtk, newDef, newTuC);
         // Maybe turn the newAtk/Def/TuC variables into their own object ?
         playerTurn.cardInGame.push(newCard);
-        // playerTurn.cardInGame.cardID = playerTurn.cardInGame.indexOf(newCard);
         
         const newcardInGame = document.createElement(`div`);
         newcardInGame.classList.add(`${newCard.status}`);
@@ -38,51 +37,52 @@ class gameMatch {
         newCard.domElement = newcardInGame;
     }
 
-    cardStatus(player, playersCard) {
-        console.log(playersCard);
-        switch(player.cardInGame[playersCard].status) {
-            case `in-hand`: player.cardInGame[playersCard].status = `in-play`; break;
-            case `in-play`: player.cardInGame[playersCard].status = `in-discard`; break;
-        }
-    }
+    // cardStatus(player, playersCard) {
+    //     console.log(playersCard);
+    //     switch(player.cardInGame[playersCard].status) {
+    //         case `in-hand`: player.cardInGame[playersCard].status = `in-play`; break;
+    //         case `in-play`: player.cardInGame[playersCard].status = `in-discard`; break;
+    //     }
+    // }
 
     playSelectedCard(chosenPlayer, chosenCard) {
-        // look act on arr. let cardObj = player1.cardInGame.find(card => card.cardID === chosenCard)
-        // cardObj.domElement.childNodes[1].innerText = parseInt(cardObj.domElement.childNodes[1].innerText) - .....
-        console.log(`All ${chosenPlayer.name} cards`, chosenPlayer);
-        console.log(chosenCard);
-        // console.log(chosenPlayer.cardInGame.map(function(x){return x.cardID}).indexOf(chosenCard));
-        // this.cardStatus(chosenPlayer, chosenCard);
-        console.log(`All ${chosenPlayer.name} cards updated`, chosenPlayer);
-
-        // Moving the card in the DOM to the relevant player's in-play area on the board
-        // chosenCard.status = `in-play`;
-        const movingCard = document.getElementById(`${chosenCard}`);
-        movingCard.className = `in-play`;
+        let cardObj = chosenPlayer.cardInGame.find(card => card.cardID === chosenCard)
+        // console.log(cardObj);
+        cardObj.status = `in-play`;
+        cardObj.domElement.className = `in-play`;
+        // console.log(cardObj);
         const inPlayArea = document.querySelector(`.in-play-area.${chosenPlayer.shortName}`);
-        inPlayArea.appendChild(movingCard);
+        inPlayArea.appendChild(cardObj.domElement);
     }
 
     attack(attackingPlayer, attackingCard, defendingPlayer, defendingCard) {
         let remainingCards;
-        let atkRemainingDef = attackingPlayer.cardInGame[attackingCard].turnDef - defendingPlayer.cardInGame[defendingCard].turnAtk;
-        let defRemainingDef = defendingPlayer.cardInGame[defendingCard].turnDef - attackingPlayer.cardInGame[attackingCard].turnAtk;
+        let atkRemainingDef = parseInt(attackingCard.domElement.childNodes[1].innerText) - parseInt(defendingCard.domElement.childNodes[0].innerText);
+        let defRemainingDef = parseInt(defendingCard.domElement.childNodes[1].innerText) - parseInt(attackingCard.domElement.childNodes[0].innerText)
         console.log(`Attacking card's remaining defense ${atkRemainingDef}`);
         console.log(`Defending card's remaining defense ${defRemainingDef}`);
 
-        attackingPlayer.cardInGame[attackingCard].turnDef = atkRemainingDef;
-        defendingPlayer.cardInGame[defendingCard].turnDef = defRemainingDef;
+        attackingCard.domElement.childNodes[1].innerText = atkRemainingDef;
+        defendingCard.domElement.childNodes[1].innerText = defRemainingDef;
 
         if (atkRemainingDef <= 0) {
-            this.cardStatus(attackingPlayer, attackingCard);
+            // this.cardStatus(attackingPlayer, attackingCard);
+            attackingCard.status = `in-discard`;
             remainingCards = attackingPlayer.cardInGame.filter(card => card.status === `in-play`);
+            const inDiscardArea = document.querySelector(`.discard-pile.${attackingPlayer.shortName}`)
+            inDiscardArea.appendChild(attackingCard.domElement);
+            attackingCard.domElement.style.display = `none`;
             if (remainingCards.length === 0) {
                 this.playerMatchHealth(attackingPlayer, atkRemainingDef);
             }
         }
         if (defRemainingDef <= 0) {
-            this.cardStatus(defendingPlayer, defendingCard);
+            // this.cardStatus(defendingPlayer, defendingCard);
+            defendingCard.status = `in-discard`;
             remainingCards = defendingPlayer.cardInGame.filter(card => card.status === `in-play`);
+            const inDiscardArea = document.querySelector(`.discard-pile.${defendingPlayer.shortName}`)
+            inDiscardArea.appendChild(attackingCard.domElement);
+            defendingCard.domElement.style.display = `none`;
             if (remainingCards.length === 0) {
                 this.playerMatchHealth(defendingPlayer, defRemainingDef);
             }
@@ -127,6 +127,10 @@ class cardGenerator {
     //     this.status = `in-play`
     //     .append(this.domElement);
     // }
+}
+
+const fightStorer = {
+    selectedCards: [],
 }
 
 const player1 = {
