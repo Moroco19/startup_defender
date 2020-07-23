@@ -59,8 +59,14 @@ function attackCard() {
         let cardFight = playerChosenCard.cardInGame.find(card => card.cardID === event.target.id) 
         console.log(cardFight)
         fightStorer.selectedCards.push(cardFight)
-        if (fightStorer.selectedCards.length === 2) {
-            newMatch.attack(fighter, fightStorer.selectedCards[0], defender, fightStorer.selectedCards[1]);
+        if (fightStorer.selectedCards.length > 1 && fightStorer.selectedCards[0].domElement.classList[1] === event.target.parentNode.classList[1]) {
+            console.log(`Cannot attack own cards, try again`);
+            fightStorer.selectedCards = [];
+        }
+        else {
+            if (fightStorer.selectedCards.length === 2) {
+                newMatch.attack(fighter, fightStorer.selectedCards[0], defender, fightStorer.selectedCards[1]);
+            }
         }
     }
 // END OF Card attack function 

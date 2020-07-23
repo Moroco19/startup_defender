@@ -15,7 +15,7 @@ class gameMatch {
         playerTurn.cardInGame.push(newCard);
         
         const newcardInGame = document.createElement(`div`);
-        newcardInGame.classList.add(`${newCard.status}`);
+        newcardInGame.className = `${newCard.status} ${chosenPlayer.shortName}`;
         newcardInGame.setAttribute(`id`, newCard.cardID);
         document.querySelector(`.in-hand-area.${chosenPlayer.shortName}`).appendChild(newcardInGame);
         
@@ -40,8 +40,8 @@ class gameMatch {
     playSelectedCard(chosenPlayer, chosenCard) {
         let cardObj = chosenPlayer.cardInGame.find(card => card.cardID === chosenCard)
         // console.log(cardObj);
-        cardObj.status = `in-play`;
-        cardObj.domElement.className = `in-play`;
+        cardObj.status = `in-play ${chosenPlayer.shortName}`;
+        cardObj.domElement.className = `in-play ${chosenPlayer.shortName}`;
         // console.log(cardObj);
         const inPlayArea = document.querySelector(`.in-play-area.${chosenPlayer.shortName}`);
         inPlayArea.appendChild(cardObj.domElement);
@@ -58,22 +58,22 @@ class gameMatch {
         defendingCard.domElement.childNodes[1].innerText = defRemainingDef;
 
         if (atkRemainingDef <= 0) {
-            attackingCard.status = `in-discard`;
+            attackingCard.status = `in-discard ${attackingPlayer.shortName}`;
             // remainingCards = attackingPlayer.cardInGame.filter(card => card.status === `in-play`);
             const inDiscardArea = document.querySelector(`.discard-pile.${attackingPlayer.shortName}`)
             inDiscardArea.appendChild(attackingCard.domElement);
-            attackingCard.domElement.className = `in-discard`;
+            attackingCard.domElement.className = `in-discard ${attackingPlayer.shortName}`;
             attackingCard.domElement.style.display = `none`;
             // if (remainingCards.length === 0) {
                 this.playerMatchHealth(attackingPlayer, atkRemainingDef);
             // }
         }
         if (defRemainingDef <= 0) {
-            defendingCard.status = `in-discard`;
+            defendingCard.status = `in-discard ${defendingPlayer.shortName}`;
             // remainingCards = defendingPlayer.cardInGame.filter(card => card.status === `in-play`);
             const inDiscardArea = document.querySelector(`.discard-pile.${defendingPlayer.shortName}`)
             inDiscardArea.appendChild(defendingCard.domElement);
-            defendingCard.domElement.className = `in-discard`;
+            defendingCard.domElement.className = `in-discard ${defendingPlayer.shortName}`;
             defendingCard.domElement.style.display = `none`;
             // if (remainingCards.length === 0) {
             this.playerMatchHealth(defendingPlayer, defRemainingDef);
