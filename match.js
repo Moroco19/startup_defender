@@ -39,12 +39,19 @@ class gameMatch {
 
     playSelectedCard(chosenPlayer, chosenCard) {
         let cardObj = chosenPlayer.cardInGame.find(card => card.cardID === chosenCard)
-        // console.log(cardObj);
-        cardObj.status = `in-play ${chosenPlayer.shortName}`;
-        cardObj.domElement.className = `in-play ${chosenPlayer.shortName}`;
-        // console.log(cardObj);
-        const inPlayArea = document.querySelector(`.in-play-area.${chosenPlayer.shortName}`);
-        inPlayArea.appendChild(cardObj.domElement);
+        let turnCurrencyDisplayed = parseInt(document.querySelector(`.turn-currency.${chosenPlayer.shortName}`).innerText);
+        if (turnCurrencyDisplayed - cardObj.turnCost >= 0) {
+            // console.log(cardObj);
+            cardObj.status = `in-play ${chosenPlayer.shortName}`;
+            cardObj.domElement.className = `in-play ${chosenPlayer.shortName}`;
+            // console.log(cardObj);
+            const inPlayArea = document.querySelector(`.in-play-area.${chosenPlayer.shortName}`);
+            inPlayArea.appendChild(cardObj.domElement);
+            document.querySelector(`.turn-currency.${chosenPlayer.shortName}`).innerText = turnCurrencyDisplayed - cardObj.turnCost;
+        }
+        else (
+            console.log(`Don't have enough turn currency to play card.`)
+        )
     }
 
     attack(attackingPlayer, attackingCard, defendingPlayer, defendingCard) {
@@ -91,26 +98,37 @@ class gameMatch {
         displayHealth();
     }
 
-    turnEndPlayCardCounter(playerEndingTurn) {
+    turnEndCounters(playerEndingTurn) {
         playerEndingTurn.cardInGame.forEach((card) => {
             if(card.turns === 0) {
                 card.turns += 1
-            }});
+           }});
         console.log(playerEndingTurn.cardInGame);
+        playerEndingTurn.turnCurrency += 1;
+        displayTurnCurrency();
     }
 
     matchEnd() {
         if (player1.matchHp <= 0 && player2.matchHp <= 0) {
             console.log(`Its a tie!`);
             alert(`Its a tie!`);
+            this.playAgain();
         }
         else if (player1.matchHp <= 0 ) {
             console.log(`Player 2 wins!`);
             alert(`Player 2 wins!`);
+            this.playAgain();
         }
         else if (player2.matchHp <= 0) {
             console.log(`Player 1 wins!`);
             alert(`Player 1 wins!`);
+            this.playAgain();
+        }
+    }
+
+    playAgain() {
+        if (confirm(`Do you want to play a new game?`) === true) {
+            newGame();
         }
     }
 }
@@ -143,8 +161,9 @@ const player1 = {
     // cardInHand: [],
     cardInGame: [],
     // cardInDiscard: [],
-    matchHp: 10,
+    matchHp: 30,
     playerTurn: true,
+    turnCurrency: 1,
 }
 const player2 = {
     name: `Player 2`,
@@ -152,8 +171,9 @@ const player2 = {
     // cardInHand: [],
     cardInGame: [],
     // cardInDiscard: [],
-    matchHp: 10,
+    matchHp: 30,
     playerTurn: false,
+    turnCurrency: 1,
 }
 
 // let match1 = new gameMatch(player1, player2);

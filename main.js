@@ -1,10 +1,14 @@
 console.log(`Connected`);
 
-const newMatch = new gameMatch(player1, player2);
+let newMatch = new gameMatch(player1, player2);
 let currentPlayer = player1;
+let playerDisplay = document.querySelector(`.current-player`);
+playerDisplay.innerText = `It is ${currentPlayer.name}'s turn`;
 
 function gameStart() {
     console.log(`A new match has begun`);
+    displayHealth();
+    displayTurnCurrency();
 }
 
 // Draw card function allows the player to draw a single random card per turn
@@ -82,33 +86,44 @@ function endTurn() {
     console.log(`Ending Turn`);
     let turnEnd = event.target.classList;
     console.log(turnEnd);
-    newMatch.turnEndPlayCardCounter(currentPlayer);
-    if (turnEnd[1] === `p1`) {
-        // player1.playerTurn = false;
-        // need to loop through player cards and increment their turn value
-        currentPlayer = player2;
-        player2.playerTurn = true;
+    let turnCurrenyVar1 = player1.turnCurrency - player2.turnCurrency <= 1;
+    let turnCurrenyVar2 = player1.turnCurrency - player2.turnCurrency >= 0;
+    if (turnCurrenyVar1 && turnCurrenyVar2) {
+        if (turnEnd[1] === `p1`) {
+            newMatch.turnEndCounters(player1);
+            currentPlayer = player2;
+            player2.playerTurn = true;
+        }
+        else if (turnEnd[1] === `p2`) {
+            newMatch.turnEndCounters(player2);
+            currentPlayer = player1;
+            player1.playerTurn = true;
+        }
     }
-    else if (turnEnd[1] === `p2`) {
-        // player2.playerTurn = false;
-        currentPlayer = player1;
-        player1.playerTurn = true;
-    }
+    playerDisplay.innerText = `It is ${currentPlayer.name}'s turn`;
 }
 // END OF End turn function
 
 // Health Display function that pulls player health from player object and displays in the DOM
 function displayHealth() {
-    document.querySelector(`.player-hp.p1`).innerText = player1.matchHp;
-    document.querySelector(`.player-hp.p2`).innerText = player2.matchHp;
+    document.querySelector(`.player-hp.p1`).innerText = `${player1.matchHp} HP`;
+    document.querySelector(`.player-hp.p2`).innerText = `${player2.matchHp} HP`;
 }
 // END OF Health Display function
+
+// Turn Currency Display function that allows the player to compare against cards in hand to see
+// which cards they can place
+function displayTurnCurrency() {
+    document.querySelector(`.turn-currency.p1`).innerText = player1.turnCurrency;
+    document.querySelector(`.turn-currency.p2`).innerText = player2.turnCurrency;
+}
+//END OF Turn Currency Display function 
 
 // Load scripts after page is ready
 window.onload = function() {
     document.querySelectorAll(`.shuffled-deck`).forEach((deck) => {deck.addEventListener(`click`, drawCard)});
-    document.querySelectorAll(`.end-turn`).forEach((ending) => {ending.addEventListener(`click`, endTurn)})
-    displayHealth();
+    document.querySelectorAll(`.end-turn`).forEach((ending) => {ending.addEventListener(`click`, endTurn)});
+    document.querySelectorAll(`.in-play-area`).forEach((area) => {area.addEventListener(`click`, endTurn)});
     gameStart();
 }
 // END OF Load scripts after page is ready
