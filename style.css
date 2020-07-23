@@ -1,4 +1,4 @@
-.screen-container, .board, .left-aside, .right-aside, .player-area, .in-hand-area, .in-play-area, .cards-in-hand, .in-play {
+.screen-container, .board, .left-aside, .right-aside, .player-area, .in-hand-area, .in-play-area, .in-hand, .in-play, .player-hp {
     display: flex;
 }
 
@@ -26,7 +26,7 @@
     margin-top: 1vh;
 }
 
-.shuffled-deck, .cards-in-hand, .in-play, .discard-pile {
+.shuffled-deck, .in-hand, .in-play, .discard-pile {
     height: 8vh;
     width: 4vw;
     border: black solid 1px;
@@ -62,8 +62,11 @@
     height: 5vh;
     width: 5vh;
 }
-
-.cards-in-hand, .in-play {
+.player-hp {
+    justify-content: center;
+    align-items: center;
+}
+.in-hand, .in-play {
     justify-content: space-between;
     flex-wrap: wrap;
 }
