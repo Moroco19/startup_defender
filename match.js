@@ -37,14 +37,6 @@ class gameMatch {
         newCard.domElement = newcardInGame;
     }
 
-    // cardStatus(player, playersCard) {
-    //     console.log(playersCard);
-    //     switch(player.cardInGame[playersCard].status) {
-    //         case `in-hand`: player.cardInGame[playersCard].status = `in-play`; break;
-    //         case `in-play`: player.cardInGame[playersCard].status = `in-discard`; break;
-    //     }
-    // }
-
     playSelectedCard(chosenPlayer, chosenCard) {
         let cardObj = chosenPlayer.cardInGame.find(card => card.cardID === chosenCard)
         // console.log(cardObj);
@@ -56,9 +48,9 @@ class gameMatch {
     }
 
     attack(attackingPlayer, attackingCard, defendingPlayer, defendingCard) {
-        let remainingCards;
-        let atkRemainingDef = parseInt(attackingCard.domElement.childNodes[1].innerText) - parseInt(defendingCard.domElement.childNodes[0].innerText);
-        let defRemainingDef = parseInt(defendingCard.domElement.childNodes[1].innerText) - parseInt(attackingCard.domElement.childNodes[0].innerText)
+        // let remainingCards;
+        let atkRemainingDef = (parseInt(attackingCard.domElement.childNodes[1].innerText) - parseInt(defendingCard.domElement.childNodes[0].innerText));
+        let defRemainingDef = (parseInt(defendingCard.domElement.childNodes[1].innerText) - parseInt(attackingCard.domElement.childNodes[0].innerText));
         console.log(`Attacking card's remaining defense ${atkRemainingDef}`);
         console.log(`Defending card's remaining defense ${defRemainingDef}`);
 
@@ -66,45 +58,50 @@ class gameMatch {
         defendingCard.domElement.childNodes[1].innerText = defRemainingDef;
 
         if (atkRemainingDef <= 0) {
-            // this.cardStatus(attackingPlayer, attackingCard);
             attackingCard.status = `in-discard`;
-            remainingCards = attackingPlayer.cardInGame.filter(card => card.status === `in-play`);
+            // remainingCards = attackingPlayer.cardInGame.filter(card => card.status === `in-play`);
             const inDiscardArea = document.querySelector(`.discard-pile.${attackingPlayer.shortName}`)
             inDiscardArea.appendChild(attackingCard.domElement);
+            attackingCard.domElement.className = `in-discard`;
             attackingCard.domElement.style.display = `none`;
-            if (remainingCards.length === 0) {
+            // if (remainingCards.length === 0) {
                 this.playerMatchHealth(attackingPlayer, atkRemainingDef);
-            }
+            // }
         }
         if (defRemainingDef <= 0) {
-            // this.cardStatus(defendingPlayer, defendingCard);
             defendingCard.status = `in-discard`;
-            remainingCards = defendingPlayer.cardInGame.filter(card => card.status === `in-play`);
+            // remainingCards = defendingPlayer.cardInGame.filter(card => card.status === `in-play`);
             const inDiscardArea = document.querySelector(`.discard-pile.${defendingPlayer.shortName}`)
-            inDiscardArea.appendChild(attackingCard.domElement);
+            inDiscardArea.appendChild(defendingCard.domElement);
+            defendingCard.domElement.className = `in-discard`;
             defendingCard.domElement.style.display = `none`;
-            if (remainingCards.length === 0) {
-                this.playerMatchHealth(defendingPlayer, defRemainingDef);
-            }
+            // if (remainingCards.length === 0) {
+            this.playerMatchHealth(defendingPlayer, defRemainingDef);
+            // }
         }
         console.log(`Player 1 cards`, player1)
         console.log(`Player 2 cards`, player2)
+        fightStorer.selectedCards = [];
         this.matchEnd();
     }
 
     playerMatchHealth(thePlayer, healthReduction) {
         thePlayer.matchHp += healthReduction;
+        displayHealth();
     }
 
     matchEnd() {
         if (player1.matchHp <= 0 && player2.matchHp <= 0) {
-            console.log(`Its a tie!`)
+            console.log(`Its a tie!`);
+            alert(`Its a tie!`);
         }
         else if (player1.matchHp <= 0 ) {
-            console.log(`Player 2 wins!`)
+            console.log(`Player 2 wins!`);
+            alert(`Player 2 wins!`);
         }
         else if (player2.matchHp <= 0) {
-            console.log(`Player 1 wins!`)
+            console.log(`Player 1 wins!`);
+            alert(`Player 1 wins!`);
         }
     }
 }
@@ -121,8 +118,6 @@ class cardGenerator {
         this.turns = 0;
     }
     domElement = null;
-
-
     // moveToInPlay() {
     //     this.status = `in-play`
     //     .append(this.domElement);
@@ -139,7 +134,7 @@ const player1 = {
     // cardInHand: [],
     cardInGame: [],
     // cardInDiscard: [],
-    matchHp: 3,
+    matchHp: 10,
     playerTurn: true,
 }
 const player2 = {
@@ -148,7 +143,7 @@ const player2 = {
     // cardInHand: [],
     cardInGame: [],
     // cardInDiscard: [],
-    matchHp: 3,
+    matchHp: 10,
     playerTurn: false,
 }
 

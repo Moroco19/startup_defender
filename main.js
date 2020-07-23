@@ -5,17 +5,10 @@ let currentPlayer = player1;
 
 function gameStart() {
     console.log(`A new match has begun`);
-    // const newMatch = new gameMatch(player1, player2);
-    // return newMatch;
 }
 
+// Draw card function allows the player to draw a single random card per turn
 function drawCard() {
-    // let newCardSpot;
-    // let newCardAttr;
-    // let newcardInGame;
-    // let newCardAtk;
-    // let newCardDef;
-    // let newCardTuC;
     console.log(`Drawing card`);
     let playerDeck = event.target.classList;
     console.log(playerDeck);
@@ -31,14 +24,19 @@ function drawCard() {
 
     document.querySelectorAll(`.in-hand`).forEach((card) => {card.addEventListener(`dblclick`, playCard)});
 }
+// END OF Draw card function
 
+// Play card function moves the selected card into the play area so it can
+// be used in the game for attack or defense
 function playCard() {
     console.log(`Play card`);
     console.log(event.target.id);
     newMatch.playSelectedCard(currentPlayer, event.target.id);
     document.querySelectorAll(`.in-play`).forEach((card) => {card.addEventListener(`click`, attackCard)});
 }
+// END OF Play card function
 
+// Card attack function
 function attackCard() {
         console.log(`Card to attack with`)
         console.log(event.target);
@@ -62,22 +60,14 @@ function attackCard() {
         console.log(cardFight)
         fightStorer.selectedCards.push(cardFight)
         if (fightStorer.selectedCards.length === 2) {
-            // console.log(fighter);
-            // console.log(fightStorer.selectedCards[0]);
-            // console.log(defender);
-            // console.log(fightStorer.selectedCards[1]);
             newMatch.attack(fighter, fightStorer.selectedCards[0], defender, fightStorer.selectedCards[1]);
         }
-        // fightStorer.selectedCards = [];
-        // attackObj.push....
-        // if (attackObj.length === 2) {
-        //     attackObj[1] - attackObj[0];
-        // }
-        displayHealth();
     }
+// END OF Card attack function 
 
 // End turn function, toggles player turns by updating the player object
-// so that the other player's turn value is true
+// so that the other player's turn value is true, and switches the current player
+// variable's value to the other player
 function endTurn() {
     console.log(`Ending Turn`);
     let turnEnd = event.target.classList;
@@ -97,10 +87,12 @@ function endTurn() {
 }
 // END OF End turn function
 
+// Health Display function that pulls player health from player object and displays in the DOM
 function displayHealth() {
-    document.querySelector(`.player-hp.p1`).innerHTML = player1.matchHp;
+    document.querySelector(`.player-hp.p1`).innerText = player1.matchHp;
     document.querySelector(`.player-hp.p2`).innerText = player2.matchHp;
 }
+// END OF Health Display function
 
 // Load scripts after page is ready
 window.onload = function() {
