@@ -57,9 +57,13 @@ function attackCard() {
             case `p2`: playerChosenCard = player2 ; break;
         }
         let cardFight = playerChosenCard.cardInGame.find(card => card.cardID === event.target.id) 
-        console.log(cardFight)
+        console.log(`cardFight object: `, cardFight)
         fightStorer.selectedCards.push(cardFight)
-        if (fightStorer.selectedCards.length > 1 && fightStorer.selectedCards[0].domElement.classList[1] === event.target.parentNode.classList[1]) {
+        if (cardFight.turns === 0) {
+            console.log(`Cannot attack with a card in the same turn that it was drawn or a card that has already been used this turn.`);
+            fightStorer.selectedCards = [];
+        }
+        else if (fightStorer.selectedCards.length > 1 && fightStorer.selectedCards[0].domElement.classList[1] === event.target.parentNode.classList[1]) {
             console.log(`Cannot attack own cards, try again`);
             fightStorer.selectedCards = [];
         }
@@ -78,7 +82,7 @@ function endTurn() {
     console.log(`Ending Turn`);
     let turnEnd = event.target.classList;
     console.log(turnEnd);
-
+    newMatch.turnEndPlayCardCounter(currentPlayer);
     if (turnEnd[1] === `p1`) {
         // player1.playerTurn = false;
         // need to loop through player cards and increment their turn value

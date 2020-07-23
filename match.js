@@ -81,6 +81,7 @@ class gameMatch {
         }
         console.log(`Player 1 cards`, player1)
         console.log(`Player 2 cards`, player2)
+        attackingCard.turns = 0;
         fightStorer.selectedCards = [];
         this.matchEnd();
     }
@@ -88,6 +89,14 @@ class gameMatch {
     playerMatchHealth(thePlayer, healthReduction) {
         thePlayer.matchHp += healthReduction;
         displayHealth();
+    }
+
+    turnEndPlayCardCounter(playerEndingTurn) {
+        playerEndingTurn.cardInGame.forEach((card) => {
+            if(card.turns === 0) {
+                card.turns += 1
+            }});
+        console.log(playerEndingTurn.cardInGame);
     }
 
     matchEnd() {
