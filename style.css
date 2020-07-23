@@ -1,14 +1,19 @@
-.screen-container, .board, .left-aside, .right-aside, .player-area, .in-hand-area, .in-play-area, .in-hand, .in-play, .player-hp, .shuffled-deck, .discard-pile, .end-turn, .turn-currency {
+body, .header, .screen-container, .board, .left-aside, .right-aside, .player-area, .in-hand-area, .in-play-area, .in-hand, .in-play, .player-hp, .shuffled-deck, .discard-pile, .end-turn, .turn-currency {
     display: flex;
 }
 body {
+    flex-direction: column;
     background-color: black;
+}
+.header {
+    margin-top: 2%;
+    justify-content: center;
+
 }
 /* CSS for overall page content organization */
 .screen-container {
     flex-direction: column;
     justify-content: center;
-    margin-top: 5%;
     margin-left: 10%;
     margin-right: 10%;
     background-color: grey;
@@ -81,6 +86,10 @@ body {
 }
 .card-tuc {
     align-self: flex-end;
+}
+
+h1 {
+    color: white;
 }
 
 h3 {
