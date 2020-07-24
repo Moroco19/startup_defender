@@ -55,39 +55,45 @@ class gameMatch {
     }
 
     attack(attackingPlayer, attackingCard, defendingPlayer, defendingCard) {
-        // let remainingCards;
-        let atkRemainingDef = (parseInt(attackingCard.domElement.childNodes[1].innerText) - parseInt(defendingCard.domElement.childNodes[0].innerText));
-        let defRemainingDef = (parseInt(defendingCard.domElement.childNodes[1].innerText) - parseInt(attackingCard.domElement.childNodes[0].innerText));
-        console.log(`Attacking card's remaining defense ${atkRemainingDef}`);
-        console.log(`Defending card's remaining defense ${defRemainingDef}`);
+        let remainingCards = defendingPlayer.cardInGame.filter(card => card.status === `in-play ${defendingPlayer.shortName}`);
+        let atkRemainingDef;
+        let defRemainingDef;
+        
+        if (remainingCards.length > 0 && attackingPlayer === currentPlayer) {
+            atkRemainingDef = (parseInt(attackingCard.domElement.childNodes[1].innerText) - parseInt(defendingCard.domElement.childNodes[0].innerText));
+            defRemainingDef = (parseInt(defendingCard.domElement.childNodes[1].innerText) - parseInt(attackingCard.domElement.childNodes[0].innerText));
+            
+            console.log(`Attacking card's remaining defense ${atkRemainingDef}`);
+            console.log(`Defending card's remaining defense ${defRemainingDef}`);
 
-        attackingCard.domElement.childNodes[1].innerText = atkRemainingDef;
-        defendingCard.domElement.childNodes[1].innerText = defRemainingDef;
+            attackingCard.domElement.childNodes[1].innerText = atkRemainingDef;
+            defendingCard.domElement.childNodes[1].innerText = defRemainingDef;
 
-        if (atkRemainingDef <= 0) {
-            attackingCard.status = `in-discard ${attackingPlayer.shortName}`;
-            // remainingCards = attackingPlayer.cardInGame.filter(card => card.status === `in-play`);
-            const inDiscardArea = document.querySelector(`.discard-pile.${attackingPlayer.shortName}`)
-            inDiscardArea.appendChild(attackingCard.domElement);
-            attackingCard.domElement.className = `in-discard ${attackingPlayer.shortName}`;
-            attackingCard.domElement.style.display = `none`;
-            // if (remainingCards.length === 0) {
-                this.playerMatchHealth(attackingPlayer, atkRemainingDef);
-            // }
+            if (atkRemainingDef <= 0) {
+                attackingCard.status = `in-discard ${attackingPlayer.shortName}`;
+                const inDiscardArea = document.querySelector(`.discard-pile.${attackingPlayer.shortName}`);
+                inDiscardArea.appendChild(attackingCard.domElement);
+                attackingCard.domElement.className = `in-discard ${attackingPlayer.shortName}`;
+                attackingCard.domElement.style.display = `none`;
+
+                    this.playerMatchHealth(attackingPlayer, atkRemainingDef);
+            }
+            if (defRemainingDef <= 0) {
+                defendingCard.status = `in-discard ${defendingPlayer.shortName}`;
+                const inDiscardArea = document.querySelector(`.discard-pile.${defendingPlayer.shortName}`);
+                inDiscardArea.appendChild(defendingCard.domElement);
+                defendingCard.domElement.className = `in-discard ${defendingPlayer.shortName}`;
+                defendingCard.domElement.style.display = `none`;
+                this.playerMatchHealth(defendingPlayer, defRemainingDef);
+                }
         }
-        if (defRemainingDef <= 0) {
-            defendingCard.status = `in-discard ${defendingPlayer.shortName}`;
-            // remainingCards = defendingPlayer.cardInGame.filter(card => card.status === `in-play`);
-            const inDiscardArea = document.querySelector(`.discard-pile.${defendingPlayer.shortName}`)
-            inDiscardArea.appendChild(defendingCard.domElement);
-            defendingCard.domElement.className = `in-discard ${defendingPlayer.shortName}`;
-            defendingCard.domElement.style.display = `none`;
-            // if (remainingCards.length === 0) {
+        else if (remainingCards.length === 0) {
+            defRemainingDef = 0 - parseInt(attackingCard.domElement.childNodes[0].innerText);
             this.playerMatchHealth(defendingPlayer, defRemainingDef);
-            // }
+            console.log(`Defending player has lost ${defRemainingDef} hp!`);
         }
-        console.log(`Player 1 cards`, player1)
-        console.log(`Player 2 cards`, player2)
+        console.log(`Player 1 cards`, player1);
+        console.log(`Player 2 cards`, player2);
         attackingCard.turns = 0;
         fightStorer.selectedCards = [];
         this.matchEnd();
@@ -100,11 +106,13 @@ class gameMatch {
 
     turnEndCounters(playerEndingTurn) {
         playerEndingTurn.cardInGame.forEach((card) => {
-            if(card.turns === 0) {
+            if(card.turns === 0 && card.status === `in-play ${playerEndingTurn.shortName}`) {
                 card.turns += 1
            }});
         console.log(playerEndingTurn.cardInGame);
-        playerEndingTurn.turnCurrency += 1;
+        if (playerEndingTurn.turnCurrency < 10) {
+            playerEndingTurn.turnCurrency += 1;
+        }
         displayTurnCurrency();
     }
 
@@ -128,7 +136,7 @@ class gameMatch {
 
     playAgain() {
         if (confirm(`Do you want to play a new game?`) === true) {
-            newGame();
+            location.reload();
         }
     }
 }
@@ -161,6 +169,7 @@ const player1 = {
     // cardInHand: [],
     cardInGame: [],
     // cardInDiscard: [],
+    domElement: null,
     matchHp: 30,
     playerTurn: true,
     turnCurrency: 1,
@@ -171,6 +180,7 @@ const player2 = {
     // cardInHand: [],
     cardInGame: [],
     // cardInDiscard: [],
+    domElement: null,
     matchHp: 30,
     playerTurn: false,
     turnCurrency: 1,

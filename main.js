@@ -36,16 +36,17 @@ function playCard() {
     console.log(`Play card`);
     console.log(event.target.id);
     newMatch.playSelectedCard(currentPlayer, event.target.id);
-    document.querySelectorAll(`.in-play`).forEach((card) => {card.addEventListener(`click`, attackCard)});
+    document.querySelectorAll(`.in-play`).forEach((card) => {card.addEventListener(`click`, attack)});
 }
 // END OF Play card function
 
 // Card attack function
-function attackCard() {
+function attack() {
         console.log(`Card to attack with`)
         console.log(event.target);
         console.log(event.target.parentNode.classList[1]);
         let playerChosenCard;
+        let cardFight;
         let fighter;
         let defender;
         if (currentPlayer === player1) {
@@ -60,8 +61,15 @@ function attackCard() {
             case `p1`: playerChosenCard = player1 ; break;
             case `p2`: playerChosenCard = player2 ; break;
         }
-        let cardFight = playerChosenCard.cardInGame.find(card => card.cardID === event.target.id) 
-        console.log(`cardFight object: `, cardFight)
+        if (event.target.classList[0] === `player-hp`) {
+            cardFight = {
+                noCards: `No Cards`,
+            }
+        }
+        else {
+            cardFight = playerChosenCard.cardInGame.find(card => card.cardID === event.target.id) 
+            console.log(`cardFight object: `, cardFight)
+        }   
         fightStorer.selectedCards.push(cardFight)
         if (cardFight.turns === 0) {
             console.log(`Cannot attack with a card in the same turn that it was drawn or a card that has already been used this turn.`);
@@ -86,15 +94,15 @@ function endTurn() {
     console.log(`Ending Turn`);
     let turnEnd = event.target.classList;
     console.log(turnEnd);
-    let turnCurrenyVar1 = player1.turnCurrency - player2.turnCurrency <= 1;
-    let turnCurrenyVar2 = player1.turnCurrency - player2.turnCurrency >= 0;
-    if (turnCurrenyVar1 && turnCurrenyVar2) {
-        if (turnEnd[1] === `p1`) {
+    // let turnCurrenyVar1 = player1.turnCurrency - player2.turnCurrency <= 1;
+    // let turnCurrenyVar2 = player1.turnCurrency - player2.turnCurrency >= 0;
+    if ((player1.turnCurrency - player2.turnCurrency <= 1) && (player1.turnCurrency - player2.turnCurrency >= 0)) {
+        if (turnEnd[1] === `p1` && player2.playerTurn === false) {
             newMatch.turnEndCounters(player1);
             currentPlayer = player2;
             player2.playerTurn = true;
         }
-        else if (turnEnd[1] === `p2`) {
+        else if (turnEnd[1] === `p2` && player1.playerTurn === false) {
             newMatch.turnEndCounters(player2);
             currentPlayer = player1;
             player1.playerTurn = true;
@@ -106,8 +114,8 @@ function endTurn() {
 
 // Health Display function that pulls player health from player object and displays in the DOM
 function displayHealth() {
-    document.querySelector(`.player-hp.p1`).innerText = `${player1.matchHp} HP`;
-    document.querySelector(`.player-hp.p2`).innerText = `${player2.matchHp} HP`;
+    document.querySelector(`.player-hp.p1`).innerText = player1.matchHp;
+    document.querySelector(`.player-hp.p2`).innerText = player2.matchHp;
 }
 // END OF Health Display function
 
@@ -123,7 +131,7 @@ function displayTurnCurrency() {
 window.onload = function() {
     document.querySelectorAll(`.shuffled-deck`).forEach((deck) => {deck.addEventListener(`click`, drawCard)});
     document.querySelectorAll(`.end-turn`).forEach((ending) => {ending.addEventListener(`click`, endTurn)});
-    document.querySelectorAll(`.in-play-area`).forEach((area) => {area.addEventListener(`click`, endTurn)});
+    document.querySelectorAll(`.player-hp`).forEach((area) => {area.addEventListener(`click`, attack)});
     gameStart();
 }
 // END OF Load scripts after page is ready
