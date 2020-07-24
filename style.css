@@ -4,6 +4,7 @@ body, .header, .screen-container, .board, .left-aside, .right-aside, .player-are
 body {
     flex-direction: column;
     background-color: black;
+    font-family: 'Courier New', Courier, monospace;
 }
 .header {
     margin-top: 2%;
@@ -17,6 +18,8 @@ body {
     margin-left: 10%;
     margin-right: 10%;
     background-color: grey;
+    border: black solid 1px;
+    border-radius: .3em;
 }
 /* END OF CSS for overall page content organization*/
 
@@ -24,6 +27,7 @@ body {
     height: 45vh;
     width: 80vw;
     background-color: brown;
+    border-radius: .3em;
 }
 
 .player2 {
@@ -34,14 +38,18 @@ body {
 }
 
 .shuffled-deck, .in-hand, .in-play, .discard-pile {
-    height: 10vh;
-    width: 5vw;
+    height: 12vh;
+    width: 6vw;
     border: black solid 1px;
+    border-radius: .3em;
+    background-color: lightgrey;
 }
 .end-turn {
     height: 5vh;
     width: 5vw;
     border: black solid 1px;
+    border-radius: .3em;
+    background-color: crimson;
 }
 
 .left-aside, .right-aside {
@@ -49,12 +57,13 @@ body {
     justify-content: space-around;
     align-items: center;
     width: 15vw;
-    background-color: chartreuse;
+    background-color: lightskyblue;
+    border: black solid 1px;
 }
 .player-area {
     flex-direction: column;
     width: 70vw;
-    background-color: cyan;
+    background-color: lightgreen;
 }
 .in-hand-area, .in-play-area {
     flex-direction: row;
@@ -62,12 +71,13 @@ body {
     justify-content: space-around;
     border: black solid 1px;
     height: 50vh;
+    padding: 1vh 1vw;
 }
 .player-hp, .turn-currency {
     border-radius: 50%;
     border: black solid 1px;
-    height: 5vh;
-    width: 5vh;
+    height: 7vh;
+    width: 7vh;
 }
 .discard-pile, .end-turn, .player-hp, .shuffled-deck, .turn-currency {
     justify-content: center;
@@ -77,6 +87,9 @@ body {
 .in-hand, .in-play {
     justify-content: space-between;
     flex-wrap: wrap;
+}
+.in-hand:hover, .in-play:hover, .end-turn:hover, .player-hp:hover, .shuffled-deck:hover  {
+    transform: scale(1.15);
 }
 .card-atk {
     align-self: flex-start;
@@ -95,4 +108,20 @@ h1 {
 h3 {
     font-size: .8em;
     text-align: center;
+}
+
+.player-hp {
+    background: radial-gradient(circle at 2vh 2vh, #00FF00, #000);
+}
+
+.turn-currency {
+    background: radial-gradient(circle at 2vh 2vh, #e2be9f, #000);
+}
+.right-aside {
+    border-top-right-radius: .3em;
+    border-bottom-right-radius: .3em;
+}
+.left-aside {
+    border-top-left-radius: .3em;
+    border-bottom-left-radius: .3em;
 }
