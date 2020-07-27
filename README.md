@@ -34,7 +34,7 @@ How-to-use instructions:
 Unsolved problems:
 -Clicking on text of cards or buttons prevents an actual click event from firing, which is unintended.
 -Creating a start / continue screen.
--Creating pre-configured cards.
+-Creating pre-configured cards with startup themed names and pictures.
 -Creating a way to track progress and earning game currency between matches.
 -Creating a store to purchase additional cards.
 -Adding a way to organize a deck with additional cards player has purchased.
