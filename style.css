@@ -125,3 +125,7 @@ h3 {
     border-top-left-radius: .3em;
     border-bottom-left-radius: .3em;
 }
+.in-play-area {
+    background-image: url("./images/black_leather.jpg");
+    background-size: cover;
+}

@@ -109,7 +109,7 @@ class gameMatch {
             if(card.turns === 0 && card.status === `in-play ${playerEndingTurn.shortName}`) {
                 card.turns += 1
            }});
-        console.log(playerEndingTurn.cardInGame);
+        // console.log(playerEndingTurn.cardInGame);
         if (playerEndingTurn.turnCurrency < 10) {
             playerEndingTurn.turnCurrency += 1;
         }
@@ -169,7 +169,7 @@ const player1 = {
     // cardInHand: [],
     cardInGame: [],
     // cardInDiscard: [],
-    domElement: null,
+    // domElement: null,
     matchHp: 30,
     playerTurn: true,
     turnCurrency: 1,
@@ -180,7 +180,7 @@ const player2 = {
     // cardInHand: [],
     cardInGame: [],
     // cardInDiscard: [],
-    domElement: null,
+    // domElement: null,
     matchHp: 30,
     playerTurn: false,
     turnCurrency: 1,

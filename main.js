@@ -13,9 +13,9 @@ function gameStart() {
 
 // Draw card function allows the player to draw a single random card per turn
 function drawCard() {
-    console.log(`Drawing card`);
+    // console.log(`Drawing card`);
     let playerDeck = event.target.classList;
-    console.log(playerDeck);
+    // console.log(playerDeck);
 
     if (playerDeck[1] === `p1` && player1.playerTurn === true) {
         newMatch.drawCard(player1);
@@ -34,7 +34,7 @@ function drawCard() {
 // be used in the game for attack or defense
 function playCard() {
     console.log(`Play card`);
-    console.log(event.target.id);
+    // console.log(event.target.id);
     newMatch.playSelectedCard(currentPlayer, event.target.id);
     document.querySelectorAll(`.in-play`).forEach((card) => {card.addEventListener(`click`, attack)});
 }
@@ -43,8 +43,11 @@ function playCard() {
 // Card attack function
 function attack() {
         console.log(`Card to attack with`)
-        console.log(event.target);
-        console.log(event.target.parentNode.classList[1]);
+        if (fightStorer.selectedCards.length > 2) {
+            fightStorer.selectedCards = [];
+        }
+        // console.log(event.target);
+        // console.log(event.target.parentNode.classList[1]);
         let playerChosenCard;
         let cardFight;
         let fighter;
@@ -61,7 +64,7 @@ function attack() {
             case `p1`: playerChosenCard = player1 ; break;
             case `p2`: playerChosenCard = player2 ; break;
         }
-        if (event.target.classList[0] === `player-hp`) {
+        if (event.target.classList[0] === `player-hp` && currentPlayer.shortName !== event.target.parentNode.classList[1]) {
             cardFight = {
                 noCards: `No Cards`,
             }
@@ -93,7 +96,7 @@ function attack() {
 function endTurn() {
     console.log(`Ending Turn`);
     let turnEnd = event.target.classList;
-    console.log(turnEnd);
+    // console.log(turnEnd);
     // let turnCurrenyVar1 = player1.turnCurrency - player2.turnCurrency <= 1;
     // let turnCurrenyVar2 = player1.turnCurrency - player2.turnCurrency >= 0;
     if ((player1.turnCurrency - player2.turnCurrency <= 1) && (player1.turnCurrency - player2.turnCurrency >= 0)) {
